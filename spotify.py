@@ -4,9 +4,9 @@ current_track_URL = 'https://api.spotify.com/v1/me/player/currently-playing'
 best_tracks_URL = 'https://api.spotify.com/v1/me/top/tracks'
 best_artists_URL = 'https://api.spotify.com/v1/me/top/artists'
 
-current_track_token = 'BQB3brvdsuKosMQN0JoihQuX_NUlLdWYdgv2rmaRr4N0QZbt8VmzqmZ84whS9_YZ1D3qZlhgiA0M15Lsee9rnTX58zQzmXweZqLm89M9ADOaQUW9cWPMtc4PNpLzMAbpZzMgLFjtut5u50I-kUdbCN7p3JnsjrnysZPd1OuZCDZSPVsMXoz6RGnUEg771tmFxlc5'
-best_tracks_token = 'BQBpPg8xx-NJXL2bHmx56bkwGO9ewhxT9abvwx2NXTdti7Op72467HFPdUoAQOvR1E7XtR02d0YkiPnI6s8zzJU-_fi1QtO_momfk2e8Iki_Q-6V9l7r8zdAi9ai8WTtPkxes-z1alDZ6VUjxnqOEbON4jYQvvkkXzEMHmDszt0jKpXH7-CS-GZZ2tT6PJuMEUZ5jO0'
-best_artists_token = 'BQCmM29H86mlFEqfOnziDa32ujF69LXNlyYDtUWiDx0ilPyhRfBA6SuTL17MxN8dMMJjTC-auU0U03c0kyXwdWDEgbjnC7DMrEtzYfjgm8zlaLeA3tbFyt2ICYdMPUskmXt-mGJCnbBYRgbfIXHnxrQ2a2KdfjqlUmaz8zf1NDQUjUNMoxt1KA-NZxmT7GbWFwiwxa8'
+current_track_token = 'BQA4N3Kh-3bvuRyXsGhAYfZxcWN46pUvSK0pROvjZ6C5KBc8GGcyZGWW-n90A_2A5Bj4RgA52lK3YfkOzcsdkmNFY9Q7W5LTtmlzWb4GSmF7V7Diwkxr5AmRsu9op97BRRZGticAFbSBFKOHNQAEpNCCZNpJjqsRozgt07XX4BXelU6T8H9FDX8oNlLZb6OHfKYY'
+best_tracks_token = 'BQBVS2gsJheo5Kg97qe5xrF8-lf823XzzC8_aGc9ZFXP_tE97JX8m62dhV2Q8On8Q8xzM4epg8YfK6AGQhVcRIxtGNlj6Jy2H5sGZ-Z_7xS8xkuWiqeo3VsmEUu8Lxt1JGBDGscjvLgG64bVcnTvEDenlrpsNCT73rB5fAa9YvcQ8DWMRsTM5lxOVmYbRyWOHydRVXw'
+best_artists_token = 'BQA8Z039782xMQihrhcVdgtbR3cETHK5npbBx2aouzQbGUSGOcglai6DJL_tX-D-agRZbDsHtJAEw8umc_Kkz9QHxGrUgT-49GKdqDMawkG8jyCdLkwAyjPHBce1iReisHsGxIyAJoov7KjsJOnRTaIngBKB6iMRYGFNzPmQbC-MiY2yp06Tg6yXesNl0Zji8oHW4ZI'
 
 def get_best_tracks():
     best_tracks = []
@@ -63,12 +63,21 @@ def get_current_track():
 
     current_track_info = {
         "id" : json_resp['item']['id'],
-    	"track_name": json_resp['item']['name'],
+    	"name": json_resp['item']['name'],
     	"artists": artist_names
     }
 
     return current_track_info
 
+def printLists(list, field):
+    i = 0
+    str = "ARTISTS"
+    if field == 'genres':
+        str = "GENRES"
+
+    for i in range(len(list)):
+        print(f"{(i + 1)}) NAME: {list[i]['name']}\n{str}: {list[i][field]}\n")
+        i += 1
 
 def main():
     current_track_id = None
@@ -80,17 +89,20 @@ def main():
     while i != len(best_tracks):
         best_tracks = get_best_tracks() #SHORT_TERM (4 weeks)
         i += 1
-    print(best_tracks)
+    print("\n\n\nBEST TRACKS: ")
+    printLists(best_tracks, 'artists')
 
     i = -1 #initially best_artists' length is 0
     while i != len(best_tracks):
         best_artists = get_best_artists() #SHORT_TERM (4 weeks)
         i += 1
-    print(best_artists)
+    print("\n\nBEST ARTISTS: ")
+    printLists(best_artists, 'genres')
 
     current_track_info = get_current_track()
     if current_track_info['id'] != current_track_id:
-        print(current_track_info)
+        print(f"\n\nCURRENT TRACK: \nNAME: {current_track_info['name']}\nARTISTS: {current_track_info['artists']}\n")
+
         current_track_id = current_track_info['id']
 
 main()
