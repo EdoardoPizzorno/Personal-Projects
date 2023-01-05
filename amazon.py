@@ -4,8 +4,8 @@ from twilio.rest import Client
 import time
 
 # Define the product ID
-#product_id = "B09BNVM9CP" #PER LE LG FREE TONE FP5
-#max_price = "49"
+product_id = "B09BNVM9CP" #PER LE LG FREE TONE FP5
+max_price = "49"
 
 #product_id = "B07ZPCYF8F" #PER LE FNATIC REACT
 #max_price = "38"
@@ -16,8 +16,8 @@ import time
 #product_id = "B07TLX61W7" #PER LE G PRO X
 #max_price = "70"
 
-product_id = "B00SAYCXWG" #PER LE HYPERX CLOUD II
-max_price = "55"
+#product_id = "B00SAYCXWG" #PER LE HYPERX CLOUD II
+#max_price = "55"
 
 price = ""
 product_name = "" 
@@ -58,15 +58,15 @@ def sendRequest():
         client = Client(account_sid, auth_token)
 
         # Send an SMS message
-        message = client.messages.create(
+        client.messages.create(
             to = "+393756689121",
             from_ = "+12722062298",
             body = f"Ehi ciao, il prezzo corrente del prodotto ({product_name}) è €{aus[0]} con uno sconto del {sale}"
         )
+    time.sleep(3600)
 
 while True:
     sendRequest()
     product_name = ""
     price = ""
     sale = ""
-    time.sleep(3600)
