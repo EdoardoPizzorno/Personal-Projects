@@ -59,9 +59,9 @@ def sendRequest():
 
         # Send an SMS message
         client.messages.create(
-            to = "+393756689121",
-            from_ = "+12722062298",
-            body = f"Ehi ciao, il prezzo corrente del prodotto ({product_name}) è €{aus[0]} con uno sconto del {sale}"
+            to = "whatsapp:+393756689121",
+            from_ = "whatsapp:+14155238886",
+            body = f"SCONTO! '{product_name}' costa €{aus[0]} con uno sconto del {sale}"
         )
     time.sleep(3600)
 
