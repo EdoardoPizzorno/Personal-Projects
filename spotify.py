@@ -25,7 +25,7 @@ def get_best_tracks():
             "name" : json_resp['items'][i]['name'],
             "artists" : artist_names,
         })
-        i += 1
+
     return best_tracks
 
 def get_best_artists():
@@ -46,7 +46,6 @@ def get_best_artists():
             "name" : json_resp['items'][i]['name'],
             "genres" : genre_names
         })
-        i += 1
 
     return best_artists
 
@@ -77,7 +76,6 @@ def printLists(list, field):
 
     for i in range(len(list)):
         print(f"{(i + 1)}) NAME: {list[i]['name']}\n{str}: {list[i][field]}\n")
-        i += 1
 
 def main():
     current_track_id = None

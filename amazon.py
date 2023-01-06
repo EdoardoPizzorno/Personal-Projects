@@ -1,9 +1,11 @@
-import requests
+import requests, time
 from bs4 import BeautifulSoup
 from twilio.rest import Client
-import time
 
 # Define the product ID
+#product_id = "B09CV6MB62" #PER LE LG FREE TONE FP9
+#max_price = "100"
+
 product_id = "B09BNVM9CP" #PER LE LG FREE TONE FP5
 max_price = "49"
 
