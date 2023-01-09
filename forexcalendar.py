@@ -19,33 +19,40 @@ def filter_high_impact(json):
 
     print(weekly_high_impact_news)
 
+    #Sending Whatsapp message
     account_sid = "ACab92ee3421e206cde9b74e854c56d11e"
     auth_token = "2b6c1441a392dd9816b053bad826a335"
 
     client = Client(account_sid, auth_token)
 
     today = date(date.today().year, date.today().month, date.today().day) #Getting today's date
-    message_body = "*EVENTI DI OGGI:* \n\n"
+    message_body = ""
+    events_today = False
 
     for i in range(len(weekly_high_impact_news)):
         aus = weekly_high_impact_news[i]["date"].split('T')
-        if str(today) == str(aus[0]): #aus[0] is now the specific news' day (ex: 2023-01-05)
+        if str("2023-01-04") == str(aus[0]): #aus[0] is now the specific news' day (ex: 2023-01-05)
+            events_today = True
+
             init_hour = aus[1].split(':00-') #hour[0] is now the specific news' hour release (ex: 08:30)
 
-            #Converting manually to rome's timezone (utc + 1)
+            #Converting manually to Rome's timezone (utc + 1)
             convert_to_rome_tz = str(init_hour[0]).split(':') #splitting hours from minutes (HOUR -> convert_to_rome_tz[0]; MINUTES -> convert_to_rome_tz[1])
             final_hour = str(int(convert_to_rome_tz[0]) + 6) #adding 6 hours in order to convert in UTC+2
             specific_hour_date = f"{final_hour}:{convert_to_rome_tz[1]}" #from '08:30' to '14:30'
 
             message_body += f"Ora: *{specific_hour_date}*\nCurrency: {weekly_high_impact_news[i]['currency']}\nEvento: {weekly_high_impact_news[i]['title']}\n\n"
-
+        
+    if events_today == False: #if there are no events today...
+        message_body = "Oggi non ci sono eventi"
+    
     client.messages.create(
         to = "whatsapp:+393756689121",
         from_ = "whatsapp:+14155238886",
         body = message_body
     )
     print(message_body)
-    time.sleep((3600 * 24))
+    time.sleep((3600 * 24)) #a day
 
 def main():
     response = requests.get(URL)

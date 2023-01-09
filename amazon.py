@@ -24,9 +24,12 @@ max_price = "49"
 price = ""
 product_name = "" 
 sale = ""
+sleep_time = 1800
+
+URL = f"https://www.amazon.it/dp/{product_id}"
 
 def sendRequest():
-    response = requests.get(f"https://www.amazon.it/dp/{product_id}")
+    response = requests.get(URL)
     print(response.status_code)
 
     while response.status_code != 200:
@@ -34,7 +37,7 @@ def sendRequest():
         sendRequest()
     
     soup = BeautifulSoup(response.text, "html.parser")
-    price = soup.find("span", class_="a-price").text
+    price = soup.find("span", class_="a-offscreen").text
     sale = soup.find("span", class_="savingsPercentage").text
         
     #Getting product's name
@@ -52,23 +55,24 @@ def sendRequest():
 
     aus = price.split('€')
     if aus[0] <= max_price:
-        # Your Twilio Account SID and Auth Token
+        #Twilio Account SID and Auth Token
         account_sid = "ACab92ee3421e206cde9b74e854c56d11e"
         auth_token = "2b6c1441a392dd9816b053bad826a335"
 
-        # Create a Twilio client
+        #Create a Twilio client
         client = Client(account_sid, auth_token)
 
-        # Send an SMS message
+        #Send an SMS message
         client.messages.create(
             to = "whatsapp:+393756689121",
             from_ = "whatsapp:+14155238886",
-            body = f"SCONTO! '{product_name}' costa €{aus[0]} con uno sconto del {sale}"
+            body = f"SCONTO! '{product_name}' costa €{aus[0]} con uno sconto del {sale}\nLink: {URL}"
         )
-    time.sleep(3600)
+        sleep_time = 3600
+    else: 
+        sleep_time = 1800 # if the price is > than max_price, it checks each 30 mins; else it checks each 60 mins 
+
+    time.sleep(sleep_time)
 
 while True:
     sendRequest()
-    product_name = ""
-    price = ""
-    sale = ""
