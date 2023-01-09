@@ -70,7 +70,7 @@ def sendRequest():
         )
         sleep_time = 3600
     else: 
-        sleep_time = 1800 # if the price is > than max_price, it checks each 30 mins; else it checks each 60 mins 
+        sleep_time = 1800 # if the price is > than max_price, it checks each 30 mins; else it checks each 60 mins
 
     time.sleep(sleep_time)
 
