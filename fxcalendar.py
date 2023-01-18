@@ -31,7 +31,7 @@ def filter_high_impact(json):
 
     for i in range(len(weekly_high_impact_news)):
         aus = weekly_high_impact_news[i]["date"].split('T')
-        if str("2023-01-04") == str(aus[0]): #aus[0] is now the specific news' day (ex: 2023-01-05)
+        if str(today) == str(aus[0]): #aus[0] is now the specific news' day (ex: 2023-01-05)
             events_today = True
 
             init_hour = aus[1].split(':00-') #hour[0] is now the specific news' hour release (ex: 08:30)
