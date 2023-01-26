@@ -1,4 +1,7 @@
 import math
+import sys
+
+sys.set_int_max_str_digits(1000000)
 
 def problem1():
     sum = 0
@@ -507,6 +510,7 @@ def MaximumPathSum():
     
     sum = 0
     maximum = matrix[0]
+    j=0
 
     greatest = 0
     for i in range(len(matrix) - 1):
@@ -515,4 +519,111 @@ def MaximumPathSum():
         greatest = calculateLeftRight(left, right, matrix, i)
     return greatest
 
-print(MaximumPathSum())
+#print(MaximumPathSum())
+
+def CountingSundays(y_start, y_end):
+    # from 01-01-1901 to 31-12-2000
+    # 01-01-1900 was a Monday
+    sundays_number = 0
+
+    total_days = []
+    daysname_in_month = ["monday", "thursday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    daysnumber_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    
+    j = 0
+    for year in range(y_start+1, y_end):
+        for month in range(1, 13):
+            # calculating the February's days number    
+            if year % 4 == 0:
+                daysnumber_in_month[1] = 29
+            else:
+                daysnumber_in_month[1] = 28
+            # shifting all the current month's days
+            for day in range(0, daysnumber_in_month[month-1]):
+                new_day = str(day) + daysname_in_month[j]
+                total_days.append(new_day)
+                if j < 6:
+                    j += 1
+                else:
+                    j = 0
+
+    for i in range(len(total_days)):
+        if total_days[i] == "1sunday":
+            sundays_number += 1
+
+    return sundays_number
+
+#print(CountingSundays(1900, 2001))
+
+def FactorialDigitSum(n):
+    sum = 0
+    prod = 1
+
+    for i in range(n, 1, -1):
+        prod *= i
+
+    prod = str(prod)
+    for i in range(len(prod)):
+        sum += int(prod[i])
+    return sum
+
+#print(FactorialDigitSum(100))
+
+def findAmicableNumber(n):
+    for_range = math.floor(n / 2) + 1
+
+    sum1 = 0
+    sum2 = 0
+
+    for i in range(1, for_range):
+        if n % i == 0:
+            sum1 += i # summing the divisor
+    
+    for i in range(1, math.floor(sum1 / 2) + 1):
+        if sum1 % i == 0:
+            sum2 += i # summing the divisor
+    
+    if sum2 == n:
+        return sum1
+    return -1
+
+def AmicableNumbers(n):
+    sum = 0
+    i = 200
+
+    while i < n:
+        amicable_number = findAmicableNumber(i)
+        if amicable_number != -1 and amicable_number != i:
+            sum += amicable_number + i
+            i = amicable_number
+        i += 1
+
+    return sum
+
+#print(AmicableNumbers(10000))
+
+def NamesScores():
+    f = open("names.txt", "r")
+    all_words = []
+
+    sum = 0
+    score = 1
+
+    file_text = f.read()
+    f.close()
+    
+    word = file_text.replace('"', "")
+
+    current_word = ""
+    i = 0
+    while i != len(word) - 1:
+        while word[i] != ',':
+            current_word += word[i]
+        all_words.append(current_word)
+        current_word = ""
+        i += 1
+
+    print(all_words)
+    return score
+
+print(NamesScores())
