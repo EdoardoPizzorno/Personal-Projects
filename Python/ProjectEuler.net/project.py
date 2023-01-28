@@ -1,7 +1,7 @@
 import math
 import sys
 
-sys.set_int_max_str_digits(1000000)
+#sys.set_int_max_str_digits(1000000)
 
 def problem1():
     sum = 0
@@ -602,28 +602,40 @@ def AmicableNumbers(n):
 
 #print(AmicableNumbers(10000))
 
+def sort(words):
+    for i in range(len(words) - 1):
+        posmin = i
+        for j in range(i+1, len(words)):
+            if words[posmin] > words[j]:
+                posmin = j
+        if posmin != i:
+            aus = words[i]
+            words[i] = words[posmin]
+            words[posmin] = aus
+
 def NamesScores():
     f = open("names.txt", "r")
-    all_words = []
-
-    sum = 0
-    score = 1
-
     file_text = f.read()
     f.close()
     
+    all_words = []
+    sum = 0
+    score = 1 
+    
     word = file_text.replace('"', "")
-
     current_word = ""
     i = 0
     while i != len(word) - 1:
-        while word[i] != ',':
+        if word[i] != ',':
             current_word += word[i]
-        all_words.append(current_word)
-        current_word = ""
+        else:
+            all_words.append(current_word)
+            current_word = ""
         i += 1
+    sort(all_words)
 
     print(all_words)
+
     return score
 
 print(NamesScores())
