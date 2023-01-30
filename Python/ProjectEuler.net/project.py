@@ -1,7 +1,7 @@
 import math
 import sys
 
-#sys.set_int_max_str_digits(1000000)
+sys.set_int_max_str_digits(1000000)
 
 def problem1():
     sum = 0
@@ -602,40 +602,38 @@ def AmicableNumbers(n):
 
 #print(AmicableNumbers(10000))
 
-def sort(words):
-    for i in range(len(words) - 1):
-        posmin = i
-        for j in range(i+1, len(words)):
-            if words[posmin] > words[j]:
-                posmin = j
-        if posmin != i:
-            aus = words[i]
-            words[i] = words[posmin]
-            words[posmin] = aus
-
 def NamesScores():
-    f = open("names.txt", "r")
-    file_text = f.read()
+    f = open("Python/ProjectEuler.net/names.txt", "r") # Relative path
+    file_content = f.read()
     f.close()
     
     all_words = []
     sum = 0
-    score = 1 
+    score = 1
+    score_sum = 0
+
+    word = file_content.replace('"', "")
     
-    word = file_text.replace('"', "")
     current_word = ""
     i = 0
-    while i != len(word) - 1:
+    while word[i] != '*':
         if word[i] != ',':
             current_word += word[i]
         else:
             all_words.append(current_word)
             current_word = ""
         i += 1
-    sort(all_words)
+    # sorting the array with all words
+    all_words.sort()
+    # calculating the final score
+    for i in range(0, len(all_words)):
+        sum = 0
+        score = 1
+        for j in range(0, len(all_words[i])):
+            sum += (ord(all_words[i][j]) - 64)
+        score *= sum * (i + 1)
+        score_sum += score
 
-    print(all_words)
-
-    return score
+    return score_sum
 
 print(NamesScores())
