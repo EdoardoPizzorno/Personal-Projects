@@ -1,8 +1,8 @@
 import requests, time
 
 #CREDENTIALS and SESSION CODE
-email = "edo.piz05@gmail.com"
-password = "Edoardo-2005"
+email = "youremail"
+password = "yourpassword"
 
 def writeOnFile(shorts, longs):
     f = open("../../../../../FINANCE/CODING/pair_market_sentiment.txt", "w")
