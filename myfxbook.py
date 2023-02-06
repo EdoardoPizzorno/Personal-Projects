@@ -5,7 +5,7 @@ email = "edo.piz05@gmail.com"
 password = "Edoardo-2005"
 
 def writeOnFile(shorts, longs):
-    f = open("../../../../../FINANCE/CODING/pair_market_sentiment.txt", "w")
+    f = open("../../../../../../Documenti/cAlgo/Sources/Robots/QuartersTheory/QuartersTheory/pair_market_sentiment.txt", "w")
     f.write(f"{shorts}\n")
     f.write(f"{longs}\n")
     f.close()
