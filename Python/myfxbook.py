@@ -1,11 +1,19 @@
 import requests, time
 
-#CREDENTIALS and SESSION CODE
-email = "youremail"
-password = "yourpassword"
+def readEmail():
+    f = open("./credentials.txt")
+    file_content = f.readlines()
+    f.close()
+    return file_content[0].strip()
 
-def writeOnFile(shorts, longs):
-    f = open("../../../../../../Documenti/cAlgo/Sources/Robots/QuartersTheory/QuartersTheory/pair_market_sentiment.txt", "w")
+def readPassword():
+    f = open("./credentials.txt")
+    file_content = f.readlines()
+    f.close()
+    return file_content[1].strip() 
+
+def writeOnFile(shorts, longs, pair_name):
+    f = open(f"C:/Users/edopi/OneDrive/Documenti/cAlgo/Sources/Robots/MarketSentiment/MarketSentiment/{pair_name}.txt", "w")
     f.write(f"{shorts}\n")
     f.write(f"{longs}\n")
     f.close()
@@ -25,11 +33,14 @@ def getSentiment(pair_name, session_code):
 
     short_percentage = response.json()['symbols'][index]['shortPercentage']
     long_percentage = 100 - short_percentage
-    print(f"SHORTS: {short_percentage}\nLONGS: {long_percentage}")
+    print(f"SHORTS: {short_percentage}/nLONGS: {long_percentage}")
     
-    writeOnFile(short_percentage, long_percentage) # writing datas on the file in order to be read by cAlgo BOT written in c#
+    writeOnFile(short_percentage, long_percentage, pair_name) # writing datas on the file in order to be read by cAlgo BOT written in c#
 
 def main():
+    email = readEmail()
+    password = readPassword()
+    print(email, password)
     url = f"https://www.myfxbook.com/api/login.json?email={email}&password={password}"
     
     response = requests.get(url)
